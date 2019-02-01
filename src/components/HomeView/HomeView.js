@@ -7,7 +7,7 @@ class HomeView extends Component {
   render() {
     return (
       <div className="App">
-       {this.props.user && <p>{`Siema ${this.props.user.name}`}</p>}
+       {this.props.user && <h1>{`Siema ${this.props.user.name}`}</h1>}
       </div>
     );
   }
