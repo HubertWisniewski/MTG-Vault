@@ -6,6 +6,26 @@ class CardSearcherForm extends Component {
       error: null
     }
 
+    handleSubmit = event => {
+      event.preventDefault();
+      if (this.state.cardName === "") {
+        this.setState({
+          error: new Error("What card do you want to find?")
+        });
+        return;
+      }
+      this.props.processSearchPhrase(this.state.cardName);
+      this.setState({ cardName: "", error: null });
+    };
+
+    handleChange = event => {
+      this.setState(
+        {
+          cardName: event.target.value
+        }
+      );
+    };
+
   render() {
     return (
         <div>
