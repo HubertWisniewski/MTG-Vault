@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 class HomeView extends Component {
     
 
-  render() {
+  render() {  
     return (
       <div className="App">
        {this.props.user && <h1>{`Siema ${this.props.user.name}`}</h1>}
