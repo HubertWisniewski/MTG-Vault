@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+const mtg = require('mtgsdk')
+
 class CardSearcherForm extends Component {
     state = {
       cardName: '',
@@ -14,7 +16,13 @@ class CardSearcherForm extends Component {
         });
         return;
       }
-      this.props.processSearchPhrase(this.state.cardName);
+      // this.props.processSearchPhrase(this.state.cardName);
+      mtg.card.all({ name: this.state.cardName, gameFormat: 'Standard' })
+    .on('data', card => {
+    this.props.processSearchPhrase(card.name, card.id)
+    this.props.componentUpdate(Date.now())
+    })
+      this.props.clearList([])
       this.setState({ cardName: "", error: null });
     };
 

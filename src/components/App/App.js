@@ -9,9 +9,7 @@ import CardsView from '../CardsView/CardsView';
 class App extends Component {
 
   state = {
-    user: null,
-    cards: [],
-    listOfKeys: null
+    user: null
   };
 
   componentDidMount() {
@@ -24,36 +22,9 @@ class App extends Component {
           .then(snapshot => {
             let fetchedUser = { uid: user.uid, ...(snapshot.val() || {})}
             this.setState({ user: fetchedUser});
-            // console.log(this.state.user.name)
           });
       }
-    });
-
-//     const mtg = require('mtgsdk')
-
-//     mtg.card.all({gameFormat: 'Standard', pageSize: 1})
-// .on('data', card => {
-//     this.state.cards.push(card)
-// })
-
-    fetch('https://crossorigin.me/https://api.magicthegathering.io/v1/cards', {gameFormat: 'Standard'})
-        .then(response => response.json())
-        .then(value => {
-          // const cards = Object.entries(value || {}).map(([key, val]) => ({
-          //    id: key,
-          //   ...val
-          // }));
-          // const list = Object.keys(value || {}).map((key) => {
-          //   return value[key]
-          // })
-
-          this.setState({
-             cards: value  
-            });
-        });
-      
-        
-    
+    });   
   }
 
   componentWillUnmount() {

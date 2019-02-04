@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import CardSearcher from '../CardSearcher/CardSearcher'
+import CardSearcherForm from '../CardSearcherForm/CardSearcherForm'
 import { dynamicSort } from '../../_utils'
 
 class CardsView extends Component {
@@ -7,26 +9,17 @@ class CardsView extends Component {
     // }
 
 
-    componentDidMount() {
-    //     const mtg = require('mtgsdk')
-
-    //     mtg.card.all({gameFormat: 'Standard', pageSize: 1})
-    // .on('data', card => {
-    //     this.state.cards.push(card)
-    // })
-    console.log(this.props.cards)
     
-    }
-
   render() {
 
     return (
       <div className="App">
         <h1>Medżiki</h1>
         <ul>
-          {this.props.cards.length === 0 ? (<p>Niema</p>) : (this.props.cards.map(card => (
+          {/* {this.props.cards.length === 0 ? (<p>Niema</p>) : (this.props.cards.map(card => (
             <li key={card.id}>{card.name}</li>
-          )))}
+          )))} */}
+          <CardSearcher/>
         </ul>
       </div>
     );
