@@ -19,7 +19,7 @@ class CardSearcherForm extends Component {
       // this.props.processSearchPhrase(this.state.cardName);
       mtg.card.all({ name: this.state.cardName, gameFormat: 'Standard' })
     .on('data', card => {
-    this.props.processSearchPhrase(card.name, card.id)
+    this.props.processSearchPhrase(card.name, card.id, card.setName)
     this.props.componentUpdate(Date.now())
     })
       this.props.clearList([])

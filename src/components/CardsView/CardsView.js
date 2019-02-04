@@ -8,7 +8,7 @@ class CardsView extends Component {
   //     cards: []
   // }
 
-  
+
 
   render() {
     return (
@@ -18,7 +18,7 @@ class CardsView extends Component {
           {/* {this.props.cards.length === 0 ? (<p>Niema</p>) : (this.props.cards.map(card => (
             <li key={card.id}>{card.name}</li>
           )))} */}
-          <CardSearcher />
+          <CardSearcher user={this.props.user}/>
         </ul>
       </div>
     );

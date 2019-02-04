@@ -5,6 +5,7 @@ import firebase from "firebase";
 import HomeView from "../HomeView/HomeView";
 import CardsView from "../CardsView/CardsView";
 import CardView from "../CardView/CardView";
+import CollectionView from "../CollectionView/CollectionView";
 
 class App extends Component {
   state = {
@@ -22,8 +23,22 @@ class App extends Component {
             let fetchedUser = { uid: user.uid, ...(snapshot.val() || {}) };
             this.setState({ user: fetchedUser });
           });
+      
       }
     });
+
+    // firebase
+    //   .database()
+    //   .ref("users/" + this.state.user.uid + "/collection")
+    //   .once("value")
+    //   .then(snapshot => {
+    //     const value = snapshot.val();
+    //     const cards = Object.entires(value || {}).map(([key, val]) => ({
+    //       id: key,
+    //       ...val
+    //     }));
+    //     this.setState({ collection: cards });
+    //   });
   }
 
   componentWillUnmount() {
@@ -36,6 +51,7 @@ class App extends Component {
         <div className="Nav">
           <NavLink to="/">Home</NavLink>
           <NavLink to="/cards">Cards</NavLink>
+          <NavLink to="/collection">Collection</NavLink>
         </div>
         <Route
           exact
@@ -60,7 +76,14 @@ class App extends Component {
             match: {
               params: { cardId }
             }
-          }) => <CardView cardId={cardId}/>}
+          }) => <CardView cardId={cardId} />}
+        />
+        <Route
+          exact
+          path="/collection"
+          component={() => (
+            <CollectionView user={this.state.user}/>
+          )}
         />
       </div>
     );

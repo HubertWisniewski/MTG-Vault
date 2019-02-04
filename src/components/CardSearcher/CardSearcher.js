@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CardSearcherForm from "../CardSearcherForm//CardSearcherForm";
 import { Link } from "react-router-dom";
+import firebase from 'firebase'
 
 class CardSearcher extends Component {
   state = {
@@ -12,8 +13,13 @@ class CardSearcher extends Component {
 
   clearList = clear => this.setState({ results: clear });
 
-  processSearchPhrase = (cardName, cardId) =>
-    this.state.results.push({ name: cardName, id: cardId });
+  processSearchPhrase = (cardName, cardId, setName) =>
+    this.state.results.push({ name: cardName, id: cardId, set: setName });
+
+  addToCollection = result => {
+    firebase.database().ref('users/' + this.props.user.uid + '/collection').push(result)
+    
+  }
 
   render() {
     return (
@@ -31,6 +37,8 @@ class CardSearcher extends Component {
               <li key={result.id}>
                 {" "}
                 <Link to={`/card/${result.id}`}> {result.name} </Link>{" "}
+                {result.set}
+            <button onClick={() => this.addToCollection(result)}>Add</button>
               </li>
             ))
           )}
