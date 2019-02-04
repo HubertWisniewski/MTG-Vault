@@ -1,17 +1,16 @@
 import React, { Component } from "react";
-import CardSearcher from '../CardSearcher/CardSearcher'
-import CardSearcherForm from '../CardSearcherForm/CardSearcherForm'
-import { dynamicSort } from '../../_utils'
+import CardSearcher from "../CardSearcher/CardSearcher";
+
+
 
 class CardsView extends Component {
-    // state = {
-    //     cards: []
-    // }
+  // state = {
+  //     cards: []
+  // }
 
+  
 
-    
   render() {
-
     return (
       <div className="App">
         <h1>Medżiki</h1>
@@ -19,7 +18,7 @@ class CardsView extends Component {
           {/* {this.props.cards.length === 0 ? (<p>Niema</p>) : (this.props.cards.map(card => (
             <li key={card.id}>{card.name}</li>
           )))} */}
-          <CardSearcher/>
+          <CardSearcher />
         </ul>
       </div>
     );

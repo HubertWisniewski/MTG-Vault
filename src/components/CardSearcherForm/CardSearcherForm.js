@@ -40,7 +40,6 @@ class CardSearcherForm extends Component {
           <form onSubmit={this.handleSubmit}>
           {this.state.error && <p>{this.state.error.message}</p>}
           <input
-            focus
             placeholder="Znajdź kartę"
             value={this.state.cardName}
             onChange={this.handleChange}
