@@ -19,7 +19,7 @@ class CardView extends Component {
   render() {
     return (
         <div>
-            {this.state.result === null ? <p>Niema</p> : (
+            {this.state.result === null ? <p>Loading</p> : (
                 <div>
                 <h1>{this.state.result.card.name}</h1>
                 

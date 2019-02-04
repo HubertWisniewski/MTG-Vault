@@ -14,7 +14,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
         firebase
           .database()
@@ -22,32 +22,28 @@ class App extends Component {
           .once("value")
           .then(snapshot => {
             let fetchedUser = { uid: user.uid, ...(snapshot.val() || {}) };
-            this.setState({ user: fetchedUser });
-          });      
-
-          firebase
-          .database()
-          .ref("users/" + user.uid + "/collection")
-          .on("value", function(snapshot){
-            const value = snapshot.val();
-            const collection = Object.entries(value || {}).map(([key, val]) => ({
-              id: key,
-              ...val
-            }));
-            // console.log(cards)
-            // this.setState({ collection });
-                   
+            this.setState({ user: fetchedUser }, () => {
+              firebase
+                .database()
+                .ref("users/" + this.state.user.uid + "/collection")
+                .once("value")
+                .then(snapshot => {
+                  const value = snapshot.val();
+                  const collection = Object.entries(value || {}).map(
+                    ([key, val]) => ({
+                      id: key,
+                      ...val
+                    })
+                  );
+                  this.setState({ collection });
+                });
+            });
           });
       }
     });
-
-   
   }
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
+ 
   render() {
     return (
       <div className="App">
@@ -86,7 +82,10 @@ class App extends Component {
           exact
           path="/collection"
           component={() => (
-            <CollectionView collection={this.state.collection} user={this.state.user}/>
+            <CollectionView
+              collection={this.state.collection}
+              user={this.state.user}
+            />
           )}
         />
       </div>
