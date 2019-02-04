@@ -9,7 +9,8 @@ import CollectionView from "../CollectionView/CollectionView";
 
 class App extends Component {
   state = {
-    user: null
+    user: null,
+    collection: []
   };
 
   componentDidMount() {
@@ -22,23 +23,25 @@ class App extends Component {
           .then(snapshot => {
             let fetchedUser = { uid: user.uid, ...(snapshot.val() || {}) };
             this.setState({ user: fetchedUser });
+          });      
+
+          firebase
+          .database()
+          .ref("users/" + user.uid + "/collection")
+          .on("value", function(snapshot){
+            const value = snapshot.val();
+            const collection = Object.entries(value || {}).map(([key, val]) => ({
+              id: key,
+              ...val
+            }));
+            // console.log(cards)
+            // this.setState({ collection });
+                   
           });
-      
       }
     });
 
-    // firebase
-    //   .database()
-    //   .ref("users/" + this.state.user.uid + "/collection")
-    //   .once("value")
-    //   .then(snapshot => {
-    //     const value = snapshot.val();
-    //     const cards = Object.entires(value || {}).map(([key, val]) => ({
-    //       id: key,
-    //       ...val
-    //     }));
-    //     this.setState({ collection: cards });
-    //   });
+   
   }
 
   componentWillUnmount() {
@@ -52,6 +55,7 @@ class App extends Component {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/cards">Cards</NavLink>
           <NavLink to="/collection">Collection</NavLink>
+          <button onClick={() => firebase.auth().signOut()}>Logout</button>
         </div>
         <Route
           exact
@@ -82,7 +86,7 @@ class App extends Component {
           exact
           path="/collection"
           component={() => (
-            <CollectionView user={this.state.user}/>
+            <CollectionView collection={this.state.collection} user={this.state.user}/>
           )}
         />
       </div>
