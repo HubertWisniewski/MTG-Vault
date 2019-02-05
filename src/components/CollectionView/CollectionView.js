@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { Image, Button, Popup } from "semantic-ui-react";
+import "semantic-ui-css/semantic.min.css";
 
 class CollectionView extends Component {
   render() {
@@ -7,7 +9,7 @@ class CollectionView extends Component {
       <div>
         <h1>Collection</h1>
         {this.props.collection.length === 0 ? (
-          <p></p>
+          <></>
         ) : (
           <p>{`Cards in your collection: ${this.props.collection.length}`}</p>
         )}
@@ -16,8 +18,19 @@ class CollectionView extends Component {
         ) : (
           this.props.collection.map(card => (
             <div>
-              <ul>
-              <Link to={`/card/${card.id}`}><li key={card.id}>{card.name}</li></Link>
+              <ul style={{ listStyleType: "none" }}>
+                <li key={card.id}>
+                  <Link to={`/card/${card.id}`}>
+                    <Popup
+                      trigger={<Button>{card.name}</Button>}
+                      content={<Image src={card.img} />}
+                      
+                      horizontalOffset={500}
+                      position='bottom right'
+                      basic
+                    />
+                  </Link>
+                </li>
               </ul>
             </div>
           ))
