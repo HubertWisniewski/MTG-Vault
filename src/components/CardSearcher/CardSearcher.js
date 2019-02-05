@@ -12,19 +12,26 @@ class CardSearcher extends Component {
   state = {
     results: [],
     date: Date.now(),
+    loadedElements: 20
   };
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.onScroll);
+  }
 
   componentUpdate = newDate => this.setState({ date: newDate });
 
   clearList = clear => this.setState({ results: clear });
 
   processSearchPhrase = (cardName, cardId, setName, imgageUrl) => {
-    this.state.results.push({
-        name: cardName,
-        id: cardId,
-        set: setName,
-        img: imgageUrl,
-      })
+    if (this.state.results.length <= this.state.loadedElements) {
+        this.state.results.push({
+            name: cardName,
+            id: cardId,
+            set: setName,
+            img: imgageUrl,
+          })
+    }
   }
 
     
@@ -34,6 +41,27 @@ class CardSearcher extends Component {
       .ref("users/" + this.props.user.uid + "/collection")
       .push(result);
   };
+
+
+  onScroll = () => {
+    // const {
+    //   loadUsers,
+    //   state: {
+    //     error,
+    //     isLoading,
+    //     hasMore,
+    //   },
+    // } = this;
+
+    // if (error || isLoading || !hasMore) return;
+
+    if (
+        (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 500) 
+    ) {
+      console.log('bejb')
+    }
+  };
+
 
   render() {
     return (
@@ -47,24 +75,27 @@ class CardSearcher extends Component {
         <div className="results" key={this.state.date}>
         {this.state.results.length === 0 ? <></> : <p>{`We have found: ${this.state.results.length} results`}</p>}
           {this.state.results.length === 0 ? (
-              <div>
-            <p>Niema</p>
+              <div style={{marginTop: 20}}>
+            <p>No results</p>
             </div>
           ) : (           
+            
             this.state.results.map(result => (
+           
                 <div>
+                        
            
             <ul style={{listStyleType: 'none'}}>            
               <li key={result.id} style={{marginTop: 20}}>
-              <Segment style={{margin: 0 + 'auto'}}>
+              <Segment inverted>
                 {" "}
                
                 <Link to={`/card/${result.id}`}>
                   <Popup
                     trigger={<Button>{result.name}</Button>}
                     content={<Image src={result.img} alt='no image' />}
-                    
-                    position='left center'
+                    horizontalOffset={500}
+                    position='bottom right'
                     basic
                     
                   />
@@ -72,7 +103,7 @@ class CardSearcher extends Component {
                 {result.set}
 
                 
-                <Button style={{marginLeft: 20}} basic color='black' animated onClick={() => this.addToCollection(result)}>
+                <Button style={{marginLeft: 20}} basic color='red' animated onClick={() => this.addToCollection(result)}>
                 <Button.Content visible>Add to collection</Button.Content>
                 <Button.Content hidden><Icon name='arrow right' /></Button.Content>
                  
@@ -80,7 +111,9 @@ class CardSearcher extends Component {
                 </Segment>
               </li>
               </ul>
+              
               </div>
+              
             ))
           )}
         </div>
