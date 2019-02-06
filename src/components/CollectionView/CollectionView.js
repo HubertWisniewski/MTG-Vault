@@ -6,7 +6,7 @@ import "semantic-ui-css/semantic.min.css";
 class CollectionView extends Component {
   render() {
     return (
-      <div>
+      <div className='Collection'>
         <h1>Collection</h1>
         {this.props.collection.length === 0 ? (
           <></>
