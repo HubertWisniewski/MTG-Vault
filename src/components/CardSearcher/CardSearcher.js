@@ -5,26 +5,40 @@ import firebase from "firebase";
 import { Image, Button, Popup, Icon, Segment } from "semantic-ui-react";
 import '../CardSearcher/CardSearcher.css'
 import "semantic-ui-css/semantic.min.css";
+import CardList from "../CardList/CardList";
 
+
+const landFilter = (cardName) => {
+switch (cardName) {
+  case 'Mountain':
+  return false
+  case 'Island':
+  return false
+  case 'Plains':
+  return false
+  case 'Swamp':
+  return false
+  case 'Forest':
+  return false
+  default: 
+  return true
+}
+}
 
 
 class CardSearcher extends Component {
   state = {
     results: [],
     date: Date.now(),
-    loadedElements: 20
+    loadedElements: 50
   };
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.onScroll);
-  }
 
   componentUpdate = newDate => this.setState({ date: newDate });
 
   clearList = clear => this.setState({ results: clear });
 
   processSearchPhrase = (cardName, cardId, setName, imgageUrl) => {
-    if (this.state.results.length <= this.state.loadedElements) {
+    if (this.state.results.length <= this.state.loadedElements && landFilter(cardName)) {
         this.state.results.push({
             name: cardName,
             id: cardId,
@@ -43,24 +57,7 @@ class CardSearcher extends Component {
   };
 
 
-  onScroll = () => {
-    // const {
-    //   loadUsers,
-    //   state: {
-    //     error,
-    //     isLoading,
-    //     hasMore,
-    //   },
-    // } = this;
-
-    // if (error || isLoading || !hasMore) return;
-
-    if (
-        (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 500) 
-    ) {
-      console.log('bejb')
-    }
-  };
+  
 
 
   render() {
@@ -79,42 +76,7 @@ class CardSearcher extends Component {
             <p>No results</p>
             </div>
           ) : (           
-            
-            this.state.results.map(result => (
-           
-                <div>
-                        
-           
-            <ul style={{listStyleType: 'none'}}>            
-              <li key={result.id} style={{marginTop: 20}}>
-              <Segment inverted>
-                {" "}
-               
-                <Link to={`/card/${result.id}`}>
-                  <Popup
-                    trigger={<Button>{result.name}</Button>}
-                    content={<Image src={result.img} alt='no image' />}
-                    horizontalOffset={500}
-                    position='bottom right'
-                    basic
-                    
-                  />
-                </Link>{" "}
-                {result.set}
-
-                
-                <Button style={{marginLeft: 20}} basic color='red' animated onClick={() => this.addToCollection(result)}>
-                <Button.Content visible>Add to collection</Button.Content>
-                <Button.Content hidden><Icon name='arrow right' /></Button.Content>
-                 
-                </Button>
-                </Segment>
-              </li>
-              </ul>
-              
-              </div>
-              
-            ))
+            <CardList results={this.state.results}/>
           )}
         </div>
       </div>

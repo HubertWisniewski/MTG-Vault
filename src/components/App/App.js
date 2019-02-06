@@ -7,6 +7,7 @@ import CardsView from "../CardsView/CardsView";
 import CardView from "../CardView/CardView";
 import CollectionView from "../CollectionView/CollectionView";
 
+
 class App extends Component {
   state = {
     user: null,
@@ -41,6 +42,7 @@ class App extends Component {
           });
       }
     });
+    
   }
 
  
