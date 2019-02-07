@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import CardSearcherForm from "../CardSearcherForm//CardSearcherForm";
 import firebase from "firebase";
-import { Icon, Pagination } from "semantic-ui-react";
+import { Icon, Pagination, Segment } from "semantic-ui-react";
 import '../CardSearcher/CardSearcher.css'
 import "semantic-ui-css/semantic.min.css";
 import CardList from "../CardList/CardList";
+
 
 
 const landFilter = (cardName) => {
@@ -25,6 +26,7 @@ switch (cardName) {
 }
 
 
+
 class CardSearcher extends Component {
   state = {
     results: [],
@@ -32,7 +34,7 @@ class CardSearcher extends Component {
     currentPage: 1,
     resultsPerPage: 25,
     isVisibleLeft: true,
-    isVisibleRight: true
+    isVisibleRight: true,
   };
 
   handlePageChange(page) {
@@ -65,17 +67,19 @@ class CardSearcher extends Component {
 
   clearList = clear => this.setState({ results: clear });
   
-  processSearchPhrase = (cardName, cardId, setName, imgageUrl) => {
+  processSearchPhrase = (cardName, cardId, setName, imgageUrl, cardColors) => {
     if (landFilter(cardName)) {
         this.state.results.push({
             name: cardName,
             id: cardId,
             set: setName,
             img: imgageUrl,
+            colors: cardColors
           })
     }
   }
 
+  
     
   addToCollection = result => {
     firebase
@@ -94,10 +98,12 @@ class CardSearcher extends Component {
     const indexOfLastResult = currentPage * resultsPerPage;
     const indexOfFirstResult = indexOfLastResult - resultsPerPage;
     const currentResults = results.slice(indexOfFirstResult, indexOfLastResult);
-
+  
     const pageNumbers = [];
+
     for (let i = 1; i <= Math.ceil(results.length / resultsPerPage); i++) {
       pageNumbers.push(i);
+
     } 
 
     const renderPageNumbers = pageNumbers.map(number => {
@@ -115,15 +121,17 @@ class CardSearcher extends Component {
 
 
     return (
-      <div className='CardSearcher' >
+      <div className='card-searcher' >
+      <Segment inverted >
         <CardSearcherForm
           clearList={this.clearList}
           results={this.state.results}
           componentUpdate={this.componentUpdate}
           processSearchPhrase={this.processSearchPhrase}
         />
-        <div className="results" key={this.state.date}>
-        {this.state.results.length === 0 ? <></> : <p style={{marginTop: 20}}>{`We have found: ${this.state.results.length} results`}</p>}
+        </Segment>
+        <div className="results" key={this.state.date} style={{marginRight: 30}}>
+        {this.state.results.length === 0 ? <></> : <p style={{marginTop: 20}}>{`We have found: ${this.state.results.length} results `}</p>}
           {this.state.results.length === 0 ? (
               <div style={{marginTop: 20}}>
             <p>No results</p>

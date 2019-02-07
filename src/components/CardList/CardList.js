@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import { Image, Button, Popup, Icon, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import red from '../../img/redmana.svg'
+import blue from '../../img/bluemana.svg'
+
+
+const colorFilter = {
+     'Red': <img src={red} alt='Red' style={{width: 20, marginRight: 20}}/>,
+     'Blue': <img src={blue} alt='Blue' style={{width: 20, marginRight: 20}}/>
+    
+}
 
 class CardList extends Component{
     render() {
@@ -14,7 +23,11 @@ class CardList extends Component{
               <li key={result.id} style={{marginTop: 20}}>
               <Segment inverted>
                 {" "}
-               
+                
+                {result.colors.map(color => (
+                    colorFilter[color] 
+                ))}
+                     
                 <Link to={`/card/${result.id}`}>
                   <Popup
                     trigger={<Button>{result.name}</Button>}
@@ -26,6 +39,7 @@ class CardList extends Component{
                   />
                 </Link>{" "}
                 {result.set}
+                
 
                 
                 <Button style={{marginLeft: 20}} basic color='red' animated onClick={() => this.addToCollection(result)}>
