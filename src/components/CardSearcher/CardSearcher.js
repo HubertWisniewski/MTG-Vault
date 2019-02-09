@@ -67,14 +67,14 @@ class CardSearcher extends Component {
 
   clearList = clear => this.setState({ results: clear });
   
-  processSearchPhrase = (cardName, cardId, setName, imgageUrl, cardColors) => {
+  processSearchPhrase = (cardName, cardId, setName, imgageUrl, manaCost) => {
     if (landFilter(cardName)) {
         this.state.results.push({
             name: cardName,
             id: cardId,
             set: setName,
             img: imgageUrl,
-            colors: cardColors
+            cost: Array.from(manaCost)
           })
     }
   }
@@ -138,7 +138,7 @@ class CardSearcher extends Component {
             </div>
           ) : (           
             <div>
-            <CardList results={currentResults}/>
+            <CardList results={currentResults} addToCollection={this.addToCollection}/>
          
         
         <Pagination

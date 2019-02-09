@@ -22,7 +22,7 @@ class CardSearcherForm extends Component {
       // this.props.processSearchPhrase(this.state.cardName);
       mtg.card.all({ name: this.state.cardName, gameFormat: 'Standard' })
     .on('data', card => {
-    this.props.processSearchPhrase(card.name, card.id, card.setName, card.imageUrl, card.colors)
+    this.props.processSearchPhrase(card.name, card.id, card.setName, card.imageUrl, card.manaCost)
     this.props.componentUpdate(Date.now())
     })
       this.setState({ cardName: "", error: null });
